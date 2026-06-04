@@ -1,0 +1,55 @@
+{
+  "_instructions": {
+    "how_to_use": [
+      "1. Edit this file to add, update or remove birds",
+      "2. Put your photo in: public/images/birds/  OR use a full Cloudinary URL",
+      "3. For image_url: use full Cloudinary URL  e.g. https://res.cloudinary.com/ddanljhjx/image/upload/v.../photo.jpg",
+      "4. For video_url: use Cloudinary Public ID only  e.g. birds/my_bird_video",
+      "5. Run:  node import-birds.js  to push all changes live to Supabase",
+      "6. Refresh browser to see changes"
+    ],
+    "field_guide": {
+      "id"         : "Unique number — shown on the card. Do not repeat.",
+      "name"       : "Common name of the bird  e.g. Budgerigar Parrots",
+      "species"    : "Breed or type  e.g. Budgerigar Parrots, Bangla",
+      "gender"     : "Male / Female / Pair / Unknown",
+      "age"        : "e.g. 6 Months, 1 Year, Adult, Baby",
+      "description": "Short description shown on the card",
+      "image_url"  : "Full Cloudinary URL or local path like public/images/birds/photo.jpg",
+      "image_url_tip": "For iPhone photos (.heic) add f_jpg after /upload/ — e.g: .../upload/f_jpg/v123.../photo.heic",
+      "fun_fact"   : "One interesting fact (optional)",
+      "price"      : "e.g. BDT 250  or  Contact for price"
+    }
+  },
+
+  "birds": [
+
+    {
+      "id": 1,
+      "name": "Budgerigar Parrots",
+      "species": "Budgerigar Parrots, Bangla",
+      "gender": "Male",
+      "age": "6 Months",
+      "description": "Highly intelligent and great as a companion bird.",
+      "image_url": "https://res.cloudinary.com/ddanljhjx/image/upload/f_jpg/v1780116300/IMG_5514_co15h9.heic",
+      "video_url": null,
+      "fun_fact": "",
+      "price": "BDT 250"
+    },
+
+    {
+      "_template": "COPY THIS BLOCK TO ADD A NEW BIRD — delete the _template line",
+      "id": 2,
+      "name": "YOUR BIRD NAME",
+      "species": "Breed / Type",
+      "gender": "Male / Female / Pair",
+      "age": "6 Months",
+      "description": "Write a description here.",
+      "image_url": "https://res.cloudinary.com/ddanljhjx/image/upload/YOUR_IMAGE_ID.jpg",
+      "video_url": null,
+      "fun_fact": "",
+      "price": "BDT 0,000"
+    }
+
+  ]
+}

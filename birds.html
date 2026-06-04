@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Estern Birds — browse all our birds for sale. Hand to hand sale only. Contact us on WhatsApp: 01711667746." />
+  <title>Our Birds — Estern Birds</title>
+
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://xirusglqbsijqqzzzuqk.supabase.co" />
+  <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400;700&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+</head>
+<body>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="navbar__logo" aria-label="Estern Birds home">
+      <span class="navbar__logo-icon" aria-hidden="true">🦅</span>
+      Estern Birds
+    </a>
+    <ul class="navbar__links">
+      <li><a href="birds.html" class="navbar__link--active">Our Birds</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li>
+        <a href="https://wa.me/8801711667746" target="_blank" rel="noopener noreferrer" class="navbar__whatsapp">
+          💬 WhatsApp
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ===================== PAGE HEADER ===================== -->
+  <header class="page-hero">
+    <div class="page-hero__inner">
+      <span class="hero__eyebrow">Available Now</span>
+      <h1 class="page-hero__title">Our <em>Birds</em></h1>
+      <p class="page-hero__subtitle">Browse our full collection. Click any bird for details and to order on WhatsApp.</p>
+      <div class="page-hero__notice">
+        🤝 Hand to hand sale only — no home delivery
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== BIRDS GRID ===================== -->
+  <main>
+    <section class="gallery" aria-labelledby="gallery-title">
+      <div class="section-header reveal">
+        <span class="section-header__eyebrow">The Collection</span>
+        <h2 class="section-header__title" id="gallery-title">All Birds</h2>
+        <p class="section-header__subtitle">
+          <span id="stat-count">—</span> birds available · Click a card to see full details
+        </p>
+      </div>
+      <div class="bird-grid" id="bird-grid" role="list" aria-label="Bird collection">
+        <div class="loading-state" aria-live="polite">
+          <div class="loading-spinner" aria-hidden="true"></div>
+          <p>Loading birds…</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__logo">🦅 Estern Birds</div>
+      <div class="footer__tagline">Premium birds, raised with love. Hand to hand sale only.</div>
+      <a href="https://wa.me/8801711667746" target="_blank" rel="noopener noreferrer" class="footer__whatsapp">
+        💬 01711667746
+      </a>
+      <div class="footer__divider" aria-hidden="true"></div>
+      <div class="footer__copy">&copy; <span id="footer-year"></span> Estern Birds. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- ===================== MODAL ===================== -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true"
+       aria-labelledby="modal-bird-name" aria-hidden="true">
+    <div class="modal">
+      <div class="modal__image-wrap" id="modal-media-wrap">
+        <video class="modal__video" id="modal-video" controls playsinline
+               style="display:none" preload="none">
+          Your browser does not support video.
+        </video>
+        <img class="modal__image" id="modal-image" src="" alt="" style="display:none" />
+        <div class="modal__placeholder" id="modal-placeholder" aria-hidden="true"></div>
+        <button class="modal__close" id="modal-close" aria-label="Close bird details">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="modal__id" id="modal-id"></div>
+        <h2 class="modal__name" id="modal-bird-name"></h2>
+        <p class="modal__species" id="modal-species"></p>
+        <div class="modal__meta" id="modal-meta"></div>
+        <p class="modal__description" id="modal-description"></p>
+        <div class="modal__fun-fact" id="modal-fun-fact-block">
+          <span class="modal__fun-fact-icon" aria-hidden="true">💡</span>
+          <div class="modal__fun-fact-content">
+            <strong>Fun Fact</strong>
+            <p id="modal-fun-fact"></p>
+          </div>
+        </div>
+        <div class="modal__purchase">
+          <div class="modal__price-wrap">
+            <span class="modal__price-label">Price</span>
+            <span class="modal__price" id="modal-price"></span>
+          </div>
+          <a class="modal__whatsapp-btn" id="modal-whatsapp" href="#" target="_blank" rel="noopener noreferrer">
+            💬 Order on WhatsApp
+          </a>
+        </div>
+        <p class="modal__sale-note">🤝 Hand to hand sale only — no home delivery</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
