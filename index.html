@@ -44,6 +44,24 @@
 
   <!-- ===================== HERO ===================== -->
   <header class="hero" id="home">
+
+    <!-- Animated gradient orbs -->
+    <div class="hero__orbs" aria-hidden="true">
+      <div class="hero__orb hero__orb--1"></div>
+      <div class="hero__orb hero__orb--2"></div>
+      <div class="hero__orb hero__orb--3"></div>
+    </div>
+
+    <!-- Floating bird silhouettes -->
+    <div class="hero__birds" aria-hidden="true">
+      <svg class="hero__bird hero__bird--1" viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 20 Q25 0 50 20 Q75 40 100 20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      <svg class="hero__bird hero__bird--2" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 16 Q20 0 40 16 Q60 32 80 16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      <svg class="hero__bird hero__bird--3" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 12 Q15 0 30 12 Q45 24 60 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      <svg class="hero__bird hero__bird--4" viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 20 Q25 0 50 20 Q75 40 100 20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      <svg class="hero__bird hero__bird--5" viewBox="0 0 70 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 14 Q17 0 35 14 Q52 28 70 14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </div>
+
+    <!-- Floating feathers -->
     <div class="hero__feathers" aria-hidden="true">
       <span class="hero__feather">🪶</span>
       <span class="hero__feather">🪶</span>
@@ -51,26 +69,29 @@
       <span class="hero__feather">🪶</span>
       <span class="hero__feather">🪶</span>
       <span class="hero__feather">🪶</span>
+      <span class="hero__feather">🪶</span>
     </div>
 
-    <span class="hero__eyebrow">Premium Bird Shop</span>
-    <h1 class="hero__title"><em>Estern</em> Birds</h1>
-    <p class="hero__tagline">
-      Discover our handpicked collection of exotic and local birds —
-      each one healthy, well-cared-for, and ready for a loving home.
-    </p>
-
-    <div class="hero__notice">
-      🤝 Hand to hand sale only &nbsp;·&nbsp; No home delivery
+    <!-- Glass card content -->
+    <div class="hero__glass">
+      <span class="hero__eyebrow">Premium Bird Shop</span>
+      <h1 class="hero__title"><em>Estern</em> Birds</h1>
+      <p class="hero__tagline">
+        Discover our handpicked collection of exotic and local birds —
+        each one healthy, well-cared-for, and ready for a loving home.
+      </p>
+      <div class="hero__notice">
+        🤝 Hand to hand sale only &nbsp;·&nbsp; No home delivery
+      </div>
+      <div class="hero__actions">
+        <a href="birds.html" class="hero__cta">Browse All Birds →</a>
+        <a href="https://wa.me/8801711667746" target="_blank" rel="noopener noreferrer" class="hero__cta hero__cta--whatsapp">
+          💬 WhatsApp Us
+        </a>
+      </div>
     </div>
 
-    <div class="hero__actions">
-      <a href="birds.html" class="hero__cta">Browse All Birds →</a>
-      <a href="https://wa.me/8801711667746" target="_blank" rel="noopener noreferrer" class="hero__cta hero__cta--whatsapp">
-        💬 WhatsApp Us
-      </a>
-    </div>
-
+    <!-- Stats bar -->
     <div class="hero__stats">
       <div class="hero__stat">
         <div class="hero__stat-number" id="stat-count">—</div>
@@ -175,15 +196,8 @@
   <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true"
        aria-labelledby="modal-bird-name" aria-hidden="true">
     <div class="modal">
-      <div class="modal__image-wrap" id="modal-media-wrap">
-        <video class="modal__video" id="modal-video" controls playsinline
-               style="display:none" preload="none">
-          Your browser does not support video.
-        </video>
-        <img class="modal__image" id="modal-image" src="" alt="" style="display:none" />
-        <div class="modal__placeholder" id="modal-placeholder" aria-hidden="true"></div>
-        <button class="modal__close" id="modal-close" aria-label="Close bird details">✕</button>
-      </div>
+      <!-- media area rebuilt by JS on each open -->
+      <div class="modal__image-wrap" id="modal-media-wrap"></div>
       <div class="modal__body">
         <div class="modal__id" id="modal-id"></div>
         <h2 class="modal__name" id="modal-bird-name"></h2>
