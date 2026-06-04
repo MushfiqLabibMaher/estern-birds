@@ -6,11 +6,9 @@
 
 /* ---------- CSS Custom Properties ---------- */
 :root {
-  --color-sky:        #5b9bd5;
   --color-sky-light:  #a8d4f5;
   --color-sky-dark:   #2c6fad;
   --color-forest:     #3a7d44;
-  --color-forest-mid: #5aaa68;
   --color-forest-light: #c8e6c9;
   --color-earth:      #8b6914;
   --color-earth-light:#f5e6c8;
@@ -24,7 +22,6 @@
   --font-body:    'Lato', 'Helvetica Neue', Arial, sans-serif;
 
   --shadow-sm:  0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md:  0 6px 24px rgba(0,0,0,0.12);
   --shadow-lg:  0 16px 48px rgba(0,0,0,0.18);
   --radius-sm:  8px;
   --radius-md:  16px;
@@ -60,19 +57,6 @@ img {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-/* ---------- Static Background (no animation = faster paint) ---------- */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(91,155,213,0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(58,125,68,0.08) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 60% 40%, rgba(245,230,200,0.15) 0%, transparent 50%);
-  will-change: auto;
 }
 
 /* ---------- Navigation ---------- */
@@ -237,21 +221,6 @@ body::before {
   padding: 0.5rem 1rem;
 }
 
-/* ---------- Hero Notice ---------- */
-.hero__notice {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--color-forest-light);
-  border: 1px solid rgba(58,125,68,0.25);
-  color: var(--color-forest);
-  font-size: 0.88rem;
-  font-weight: 700;
-  padding: 0.55rem 1.25rem;
-  border-radius: 100px;
-  margin-bottom: 2rem;
-}
-
 /* ---------- Featured Section ---------- */
 .featured {
   padding: 5rem 2rem 4rem;
@@ -356,18 +325,106 @@ body::before {
   .how__step { max-width: 100%; }
 }
 
-/* ---------- Hero ---------- */
+/* ============================================================
+   HERO — rich animated background with glassmorphism
+   ============================================================ */
 .hero {
   position: relative;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 7rem 2rem 6rem;
+  padding: 6rem 2rem 5rem;
+  overflow: hidden;
+  /* Deep nature gradient */
+  background:
+    linear-gradient(160deg,
+      #0a2e1a 0%,
+      #0d3d24 30%,
+      #0e4a2e 55%,
+      #0a3340 80%,
+      #061e2e 100%);
+}
+
+/* ---------- Orbs (large glowing blobs) ---------- */
+.hero__orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   overflow: hidden;
 }
 
+.hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+}
+
+.hero__orb--1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #2ecc71 0%, #27ae60 50%, transparent 70%);
+  top: -150px; left: -100px;
+  animation: orbFloat1 14s ease-in-out infinite alternate;
+}
+
+.hero__orb--2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #3498db 0%, #2980b9 50%, transparent 70%);
+  bottom: -100px; right: -80px;
+  animation: orbFloat2 18s ease-in-out infinite alternate;
+}
+
+.hero__orb--3 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, #f39c12 0%, #e67e22 50%, transparent 70%);
+  top: 40%; left: 55%;
+  animation: orbFloat3 12s ease-in-out infinite alternate;
+  opacity: 0.18;
+}
+
+@keyframes orbFloat1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, 80px) scale(1.15); }
+}
+@keyframes orbFloat2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-50px, -60px) scale(1.1); }
+}
+@keyframes orbFloat3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-40px, 50px) scale(1.2); }
+}
+
+/* ---------- Flying bird silhouettes ---------- */
+.hero__birds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__bird {
+  position: absolute;
+  color: rgba(255,255,255,0.12);
+}
+
+.hero__bird--1 { width: 90px;  top: 15%; left: -100px;  animation: flyAcross 18s linear infinite; }
+.hero__bird--2 { width: 60px;  top: 28%; left: -70px;   animation: flyAcross 24s linear 4s infinite; }
+.hero__bird--3 { width: 45px;  top: 55%; left: -60px;   animation: flyAcross 20s linear 9s infinite; }
+.hero__bird--4 { width: 80px;  top: 70%; left: -90px;   animation: flyAcross 16s linear 2s infinite; }
+.hero__bird--5 { width: 55px;  top: 42%; left: -65px;   animation: flyAcross 22s linear 14s infinite; }
+
+@keyframes flyAcross {
+  0%   { transform: translateX(0) translateY(0); opacity: 0; }
+  5%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 150px)) translateY(-30px); opacity: 0; }
+}
+
+/* ---------- Floating feathers ---------- */
 .hero__feathers {
   position: absolute;
   inset: 0;
@@ -377,145 +434,217 @@ body::before {
 
 .hero__feather {
   position: absolute;
-  font-size: 1.4rem;
-  opacity: 0.18;
-  animation: floatFeather linear infinite;
+  font-size: 1.3rem;
+  opacity: 0;
+  animation: featherFall linear infinite;
 }
 
-.hero__feather:nth-child(1)  { left: 8%;  top: 15%; animation-duration: 14s; animation-delay: 0s;   font-size: 1.8rem; }
-.hero__feather:nth-child(2)  { left: 22%; top: 70%; animation-duration: 18s; animation-delay: -4s;  font-size: 1.2rem; }
-.hero__feather:nth-child(3)  { left: 40%; top: 10%; animation-duration: 12s; animation-delay: -2s;  font-size: 2rem;   }
-.hero__feather:nth-child(4)  { left: 60%; top: 80%; animation-duration: 16s; animation-delay: -6s;  font-size: 1.5rem; }
-.hero__feather:nth-child(5)  { left: 78%; top: 20%; animation-duration: 20s; animation-delay: -8s;  font-size: 1.1rem; }
-.hero__feather:nth-child(6)  { left: 90%; top: 55%; animation-duration: 15s; animation-delay: -3s;  font-size: 1.7rem; }
-.hero__feather:nth-child(7)  { left: 5%;  top: 50%; animation-duration: 22s; animation-delay: -10s; font-size: 1.3rem; }
-.hero__feather:nth-child(8)  { left: 50%; top: 45%; animation-duration: 17s; animation-delay: -5s;  font-size: 0.9rem; }
+.hero__feather:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s;    font-size: 1.6rem; }
+.hero__feather:nth-child(2) { left: 25%; animation-duration: 16s; animation-delay: -3s;   font-size: 1.1rem; }
+.hero__feather:nth-child(3) { left: 42%; animation-duration: 14s; animation-delay: -7s;   font-size: 1.8rem; }
+.hero__feather:nth-child(4) { left: 60%; animation-duration: 18s; animation-delay: -11s;  font-size: 1.0rem; }
+.hero__feather:nth-child(5) { left: 75%; animation-duration: 13s; animation-delay: -5s;   font-size: 1.4rem; }
+.hero__feather:nth-child(6) { left: 88%; animation-duration: 20s; animation-delay: -15s;  font-size: 1.2rem; }
+.hero__feather:nth-child(7) { left: 5%;  animation-duration: 15s; animation-delay: -9s;   font-size: 1.7rem; }
 
-@keyframes floatFeather {
-  0%   { transform: translateY(0px) rotate(0deg);   opacity: 0.18; }
-  25%  { transform: translateY(-18px) rotate(8deg);  opacity: 0.25; }
-  50%  { transform: translateY(-8px) rotate(-5deg);  opacity: 0.18; }
-  75%  { transform: translateY(-22px) rotate(12deg); opacity: 0.22; }
-  100% { transform: translateY(0px) rotate(0deg);   opacity: 0.18; }
+@keyframes featherFall {
+  0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0; }
+  8%   { opacity: 0.5; }
+  85%  { opacity: 0.35; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
 
+/* ---------- Glass card ---------- */
+.hero__glass {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 28px;
+  padding: 3.5rem 4rem;
+  max-width: 700px;
+  width: 100%;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  animation: glassIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes glassIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- Hero text (all white on dark bg) ---------- */
 .hero__eyebrow {
   display: inline-block;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-forest);
-  background: var(--color-forest-light);
-  padding: 0.35rem 1rem;
+  color: #7defa1;
+  background: rgba(125, 239, 161, 0.12);
+  border: 1px solid rgba(125, 239, 161, 0.3);
+  padding: 0.35rem 1.1rem;
   border-radius: 100px;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.5rem;
+  animation: fadeSlideUp 0.7s 0.3s ease both;
 }
 
 .hero__title {
   font-family: var(--font-heading);
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 700;
-  line-height: 1.1;
-  color: var(--color-text);
+  line-height: 1.05;
+  color: #ffffff;
   margin-bottom: 1.2rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  animation: fadeSlideUp 0.7s 0.45s ease both;
 }
 
 .hero__title em {
   font-style: italic;
-  color: var(--color-forest);
+  background: linear-gradient(135deg, #7defa1 0%, #38d9a9 50%, #74c0fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero__tagline {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: var(--color-text-muted);
-  max-width: 560px;
-  margin-bottom: 2.5rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  color: rgba(255,255,255,0.72);
+  max-width: 500px;
+  margin: 0 auto 1.8rem;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.8;
+  animation: fadeSlideUp 0.7s 0.58s ease both;
 }
 
-.hero__sale-note {
-  display: block;
-  margin-top: 0.75rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--color-forest);
-  background: var(--color-forest-light);
-  padding: 0.4rem 1rem;
+.hero__notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
   border-radius: 100px;
-  display: inline-block;
+  margin-bottom: 2rem;
+  animation: fadeSlideUp 0.7s 0.68s ease both;
 }
 
 .hero__actions {
   display: flex;
-  gap: 1rem;
+  gap: 0.85rem;
   flex-wrap: wrap;
   justify-content: center;
+  animation: fadeSlideUp 0.7s 0.8s ease both;
 }
 
 .hero__cta {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--color-forest);
-  color: var(--color-white);
   font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   padding: 0.85rem 2rem;
   border-radius: 100px;
   border: none;
   cursor: pointer;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-  box-shadow: 0 4px 16px rgba(58,125,68,0.35);
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  /* Default — frosted glass */
+  background: rgba(255,255,255,0.92);
+  color: #0d3d24;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
 }
 
 .hero__cta:hover {
-  background: var(--color-sky-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(44,111,173,0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  background: #ffffff;
 }
 
 .hero__cta--whatsapp {
   background: #25d366;
-  box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
 }
 
 .hero__cta--whatsapp:hover {
-  background: #1ebe5d;
-  box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+  background: #20c55c;
+  box-shadow: 0 10px 30px rgba(37,211,102,0.55);
 }
 
+/* ---------- Stats bar ---------- */
 .hero__stats {
+  position: relative;
+  z-index: 2;
   display: flex;
-  gap: 3rem;
-  margin-top: 4rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid var(--color-border);
+  gap: 0;
+  margin-top: 2.5rem;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  overflow: hidden;
+  animation: fadeSlideUp 0.7s 1s ease both;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
 }
 
 .hero__stat {
+  flex: 1;
   text-align: center;
+  padding: 1.25rem 2rem;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.2s;
 }
+
+.hero__stat:last-child { border-right: none; }
+.hero__stat:hover { background: rgba(255,255,255,0.06); }
 
 .hero__stat-number {
   font-family: var(--font-heading);
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-forest);
+  color: #7defa1;
   line-height: 1;
 }
 
 .hero__stat-label {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 0.3rem;
+  letter-spacing: 0.12em;
+  margin-top: 0.35rem;
+}
+
+/* ---------- Entrance animations ---------- */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .hero__glass {
+    padding: 2.5rem 1.75rem;
+    border-radius: 20px;
+  }
+  .hero__stats {
+    flex-direction: column;
+    gap: 0;
+  }
+  .hero__stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .hero__stat:last-child { border-bottom: none; }
 }
 
 /* ---------- Gallery Section ---------- */
@@ -596,10 +725,15 @@ body::before {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  opacity: 0.01; /* almost invisible until loaded, avoids flash of broken img icon */
 }
 
-.bird-card:hover .bird-card__image {
+.bird-card__image.is-loaded {
+  opacity: 1;
+}
+
+.bird-card:hover .bird-card__image.is-loaded {
   transform: scale(1.06);
 }
 
@@ -612,6 +746,8 @@ body::before {
   justify-content: center;
   gap: 0.6rem;
   background: linear-gradient(135deg, var(--color-forest-light) 0%, var(--color-sky-light) 100%);
+  transition: opacity 0.3s ease;
+  z-index: 1;
 }
 
 .bird-card__placeholder-icon {
@@ -678,26 +814,6 @@ body::before {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.bird-card__fun-fact {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-start;
-  background: var(--color-earth-light);
-  border-left: 3px solid var(--color-earth);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: 0.65rem 0.85rem;
-  margin-bottom: 1.25rem;
-  font-size: 0.8rem;
-  color: var(--color-earth);
-  line-height: 1.5;
-}
-
-.bird-card__fun-fact-icon {
-  flex-shrink: 0;
-  font-size: 0.9rem;
-  margin-top: 0.05rem;
 }
 
 /* ---------- Price Row ---------- */
@@ -787,11 +903,6 @@ body::before {
   box-shadow: 0 4px 14px rgba(37,211,102,0.5);
 }
 
-.bird-card__icon {
-  font-size: 1.4rem;
-  line-height: 1;
-}
-
 /* ---------- Loading State ---------- */
 .loading-state {
   grid-column: 1 / -1;
@@ -815,15 +926,6 @@ body::before {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
-}
-
-/* ---------- Modal Video Player ---------- */
-.modal__video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #000;
-  display: block;
 }
 
 /* ---------- Bird Card ID ---------- */
@@ -957,20 +1059,7 @@ body::before {
   background: linear-gradient(135deg, var(--color-forest-light) 0%, var(--color-sky-light) 100%);
 }
 
-.modal__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.modal__placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 6rem;
-}
+/* .modal__image and .modal__placeholder are not used — modal injects inline styles via JS */
 
 .modal__close {
   position: absolute;
@@ -1266,14 +1355,6 @@ body::before {
     gap: 1.2rem;
   }
 
-  .hero {
-    padding: 5rem 1.5rem 4rem;
-  }
-
-  .hero__stats {
-    gap: 2rem;
-  }
-
   .gallery {
     padding: 3.5rem 1.25rem 4rem;
   }
@@ -1291,12 +1372,6 @@ body::before {
 @media (max-width: 480px) {
   .navbar__links {
     display: none;
-  }
-
-  .hero__stats {
-    flex-direction: column;
-    gap: 1.2rem;
-    align-items: center;
   }
 
   .bird-grid {
