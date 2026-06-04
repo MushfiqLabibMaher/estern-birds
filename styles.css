@@ -404,6 +404,7 @@ a {
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  z-index: 3; /* above glass card */
 }
 
 .hero__bird {
@@ -430,28 +431,41 @@ a {
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  z-index: 1; /* behind glass card on desktop */
 }
 
 .hero__feather {
   position: absolute;
-  font-size: 1.3rem;
-  opacity: 0;
+  width: 26px;
+  height: 26px;
+  color: rgba(255,255,255,0.55);
   animation: featherFall linear infinite;
 }
 
-.hero__feather:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s;    font-size: 1.6rem; }
-.hero__feather:nth-child(2) { left: 25%; animation-duration: 16s; animation-delay: -3s;   font-size: 1.1rem; }
-.hero__feather:nth-child(3) { left: 42%; animation-duration: 14s; animation-delay: -7s;   font-size: 1.8rem; }
-.hero__feather:nth-child(4) { left: 60%; animation-duration: 18s; animation-delay: -11s;  font-size: 1.0rem; }
-.hero__feather:nth-child(5) { left: 75%; animation-duration: 13s; animation-delay: -5s;   font-size: 1.4rem; }
-.hero__feather:nth-child(6) { left: 88%; animation-duration: 20s; animation-delay: -15s;  font-size: 1.2rem; }
-.hero__feather:nth-child(7) { left: 5%;  animation-duration: 15s; animation-delay: -9s;   font-size: 1.7rem; }
+.hero__feather:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s;    width: 32px; height: 32px; }
+.hero__feather:nth-child(2) { left: 25%; animation-duration: 16s; animation-delay: -3s;   width: 22px; height: 22px; }
+.hero__feather:nth-child(3) { left: 42%; animation-duration: 14s; animation-delay: -7s;   width: 36px; height: 36px; }
+.hero__feather:nth-child(4) { left: 60%; animation-duration: 18s; animation-delay: -11s;  width: 20px; height: 20px; }
+.hero__feather:nth-child(5) { left: 75%; animation-duration: 13s; animation-delay: -5s;   width: 28px; height: 28px; }
+.hero__feather:nth-child(6) { left: 88%; animation-duration: 20s; animation-delay: -15s;  width: 24px; height: 24px; }
+.hero__feather:nth-child(7) { left: 5%;  animation-duration: 15s; animation-delay: -9s;   width: 34px; height: 34px; }
 
 @keyframes featherFall {
   0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0; }
-  8%   { opacity: 0.5; }
-  85%  { opacity: 0.35; }
+  8%   { opacity: 0.6; }
+  85%  { opacity: 0.4; }
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Respect reduced-motion preference — keep feathers visible but static */
+@media (prefers-reduced-motion: reduce) {
+  .hero__feather {
+    animation: none;
+    opacity: 0.15;
+    transform: translateY(30%);
+  }
+  .hero__bird { animation: none; opacity: 0.08; }
+  .hero__orb  { animation: none; }
 }
 
 /* ---------- Glass card ---------- */
@@ -814,8 +828,15 @@ a {
 
 @media (max-width: 600px) {
   .filters { padding: 0 1rem; }
-  .filters__chips { gap: 0.4rem; }
-  .filters__chip { font-size: 0.78rem; padding: 0.35rem 0.85rem; }
+  .filters__chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .filters__chips::-webkit-scrollbar { display: none; }
+  .filters__chip { font-size: 0.78rem; padding: 0.35rem 0.85rem; flex-shrink: 0; }
 }
 
 /* ---------- Gallery Section ---------- */
@@ -1531,7 +1552,7 @@ a {
   }
 
   .bird-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
   }
 
@@ -1541,11 +1562,8 @@ a {
 }
 
 @media (max-width: 480px) {
-  .navbar__links {
+  /* Hide text nav links but keep WhatsApp button */
+  .navbar__links li:not(:last-child) {
     display: none;
-  }
-
-  .bird-grid {
-    grid-template-columns: 1fr;
   }
 }

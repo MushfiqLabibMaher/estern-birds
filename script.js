@@ -131,8 +131,8 @@ function createBirdCard(bird) {
   const tUrl    = videoThumbUrl(bird.video_url);
   const hasVid  = !!vUrl;
 
-  // Optimized card image (600px wide WebP)
-  const imgSrc = tUrl || optimizeUrl(bird.image_url, 600) || '';
+  // Optimized card image (800px wide WebP)
+  const imgSrc = tUrl || optimizeUrl(bird.image_url, 800) || '';
 
   const article = document.createElement('article');
   article.className = 'bird-card reveal';
