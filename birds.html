@@ -61,12 +61,60 @@
           <span id="stat-count">—</span> birds available · Click a card to see full details
         </p>
       </div>
+
+      <!-- ===== FILTER BAR ===== -->
+      <div class="filters" id="filters" role="search" aria-label="Filter birds">
+
+        <!-- Text search -->
+        <div class="filters__search-wrap">
+          <span class="filters__search-icon" aria-hidden="true">🔍</span>
+          <input
+            class="filters__search"
+            id="filter-search"
+            type="search"
+            placeholder="Search by name or species…"
+            autocomplete="off"
+            aria-label="Search birds"
+          />
+          <button class="filters__search-clear" id="filter-search-clear" aria-label="Clear search" hidden>✕</button>
+        </div>
+
+        <!-- Category chips -->
+        <div class="filters__chips" id="filter-categories" role="group" aria-label="Filter by category">
+          <button class="filters__chip filters__chip--active" data-filter="category" data-value="all">All</button>
+          <button class="filters__chip" data-filter="category" data-value="parrot">🦜 Parrots</button>
+          <button class="filters__chip" data-filter="category" data-value="finch">🐦 Finches</button>
+          <button class="filters__chip" data-filter="category" data-value="cockatiel">Cockatiels</button>
+          <button class="filters__chip" data-filter="category" data-value="dove">Doves</button>
+          <button class="filters__chip" data-filter="category" data-value="other">Other</button>
+        </div>
+
+        <!-- Gender / Age quick filters -->
+        <div class="filters__chips" id="filter-gender" role="group" aria-label="Filter by gender">
+          <button class="filters__chip filters__chip--active filters__chip--secondary" data-filter="gender" data-value="all">Any</button>
+          <button class="filters__chip filters__chip--secondary" data-filter="gender" data-value="Male">♂ Male</button>
+          <button class="filters__chip filters__chip--secondary" data-filter="gender" data-value="Female">♀ Female</button>
+          <button class="filters__chip filters__chip--secondary" data-filter="gender" data-value="Pair">⚥ Pair</button>
+        </div>
+
+        <!-- Result count -->
+        <p class="filters__result-count" id="filter-result-count" aria-live="polite"></p>
+      </div>
+
       <div class="bird-grid" id="bird-grid" role="list" aria-label="Bird collection">
         <div class="loading-state" aria-live="polite">
           <div class="loading-spinner" aria-hidden="true"></div>
           <p>Loading birds…</p>
         </div>
       </div>
+
+      <!-- No results message -->
+      <div class="filters__no-results" id="filter-no-results" hidden>
+        <span>🔍</span>
+        <p>No birds match your filters.</p>
+        <button class="filters__reset" id="filter-reset">Clear all filters</button>
+      </div>
+
     </section>
   </main>
 

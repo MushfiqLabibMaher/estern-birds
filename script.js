@@ -182,6 +182,10 @@ function createBirdCard(bird) {
 // ============================================================
 // RENDER
 // ============================================================
+
+// Store all birds globally so filters can re-run without re-fetching
+let ALL_BIRDS = [];
+
 function renderBirds(birds) {
   if (!gridEl) return;
   gridEl.innerHTML = '';
@@ -198,6 +202,118 @@ function renderBirds(birds) {
     gridEl.appendChild(card);
   });
   observeReveal();
+}
+
+// ============================================================
+// FILTERS (birds.html only)
+// ============================================================
+
+const CATEGORY_KEYWORDS = {
+  cockatiel: ['cockatiel'],
+  parrot:    ['parrot','budgerigar','budgie','lovebird','macaw','cockatoo','conure','parakeet','ringneck','alexandrine'],
+  finch:     ['finch','canary','munia','waxbill','sparrow','weaver'],
+  dove:      ['dove','pigeon','columbid'],
+};
+
+function getBirdCategory(bird) {
+  const text = `${bird?.name ?? ''} ${bird?.species ?? ''}`.toLowerCase();
+  for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+    if (keywords.some(k => text.includes(k))) return cat;
+  }
+  return 'other';
+}
+
+function filterAndRender() {
+  if (!gridEl || isFeaturedPage) return;
+
+  const search   = (document.getElementById('filter-search')?.value || '').toLowerCase().trim();
+  const catChip  = document.querySelector('.filters__chip--active[data-filter="category"]');
+  const genChip  = document.querySelector('.filters__chip--active.filters__chip--secondary[data-filter="gender"]');
+  const category = catChip?.dataset.value || 'all';
+  const gender   = genChip?.dataset.value || 'all';
+
+  let filtered = ALL_BIRDS.filter(bird => {
+    // Text search
+    if (search) {
+      const haystack = `${bird.name ?? ''} ${bird.species ?? ''} ${bird.description ?? ''}`.toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    // Category
+    if (category !== 'all' && getBirdCategory(bird) !== category) return false;
+    // Gender
+    if (gender !== 'all' && (bird.gender ?? '').toLowerCase() !== gender.toLowerCase()) return false;
+    return true;
+  });
+
+  // Show/hide no-results
+  const noResults = document.getElementById('filter-no-results');
+  const countEl   = document.getElementById('filter-result-count');
+
+  gridEl.innerHTML = '';
+
+  if (filtered.length === 0) {
+    if (noResults) noResults.hidden = false;
+    if (countEl)   countEl.textContent = '0 birds match your filters';
+  } else {
+    if (noResults) noResults.hidden = true;
+    if (countEl)   countEl.textContent = `Showing ${filtered.length} of ${ALL_BIRDS.length} birds`;
+    filtered.forEach((bird, i) => {
+      const card = createBirdCard(bird);
+      card.style.transitionDelay = `${i * 60}ms`;
+      gridEl.appendChild(card);
+    });
+    observeReveal();
+  }
+}
+
+function initFilters() {
+  const searchEl = document.getElementById('filter-search');
+  const clearBtn = document.getElementById('filter-search-clear');
+  const resetBtn = document.getElementById('filter-reset');
+
+  if (!searchEl) return; // not on birds page
+
+  // Search input
+  searchEl.addEventListener('input', () => {
+    if (clearBtn) clearBtn.hidden = searchEl.value === '';
+    filterAndRender();
+  });
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      searchEl.value = '';
+      clearBtn.hidden = true;
+      searchEl.focus();
+      filterAndRender();
+    });
+  }
+
+  // Category + gender chips
+  document.querySelectorAll('.filters__chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const group = chip.dataset.filter;
+      // Deactivate siblings in same group
+      document.querySelectorAll(`.filters__chip[data-filter="${group}"]`).forEach(c => {
+        c.classList.remove('filters__chip--active');
+      });
+      chip.classList.add('filters__chip--active');
+      filterAndRender();
+    });
+  });
+
+  // Reset all
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      searchEl.value = '';
+      if (clearBtn) clearBtn.hidden = true;
+      document.querySelectorAll('.filters__chip[data-filter="category"]').forEach((c, i) => {
+        c.classList.toggle('filters__chip--active', i === 0);
+      });
+      document.querySelectorAll('.filters__chip[data-filter="gender"]').forEach((c, i) => {
+        c.classList.toggle('filters__chip--active', i === 0);
+      });
+      filterAndRender();
+    });
+  }
 }
 
 // ============================================================
@@ -329,7 +445,13 @@ async function init() {
   const fy = document.getElementById('footer-year');
   if (fy) fy.textContent = new Date().getFullYear();
   const birds = await fetchBirds();
-  renderBirds(birds); // also calls observeReveal() internally
+  ALL_BIRDS = birds;
+  if (isFeaturedPage) {
+    renderBirds(birds);
+  } else {
+    initFilters();
+    filterAndRender();
+  }
 }
 
 if (document.readyState === 'loading') {
