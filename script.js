@@ -203,8 +203,7 @@ function renderBirds(birds) {
 // ============================================================
 // MODAL — simple and bulletproof
 // ============================================================
-const overlay    = document.getElementById('modal-overlay');
-const modalClose = document.getElementById('modal-close');
+const overlay = document.getElementById('modal-overlay');
 
 function showModal(bird) {
   if (!overlay) return;
@@ -307,9 +306,8 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-if (modalClose) modalClose.addEventListener('click', closeModal);
-if (overlay)    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key==='Escape' && overlay && overlay.classList.contains('is-open')) closeModal(); });
+if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay?.classList.contains('is-open')) closeModal(); });
 
 // ============================================================
 // SCROLL REVEAL
@@ -331,8 +329,7 @@ async function init() {
   const fy = document.getElementById('footer-year');
   if (fy) fy.textContent = new Date().getFullYear();
   const birds = await fetchBirds();
-  renderBirds(birds);
-  observeReveal();
+  renderBirds(birds); // also calls observeReveal() internally
 }
 
 if (document.readyState === 'loading') {
