@@ -232,7 +232,9 @@ function filterAndRender() {
 
   const search   = (document.getElementById('filter-search')?.value || '').toLowerCase().trim();
   const catChip  = document.querySelector('.filters__chip--active[data-filter="category"]');
+  const genChip  = document.querySelector('.filters__chip--active.filters__chip--secondary[data-filter="gender"]');
   const category = catChip?.dataset.value || 'all';
+  const gender   = genChip?.dataset.value || 'all';
 
   let filtered = ALL_BIRDS.filter(bird => {
     // Text search
@@ -242,6 +244,8 @@ function filterAndRender() {
     }
     // Category
     if (category !== 'all' && getBirdCategory(bird) !== category) return false;
+    // Gender
+    if (gender !== 'all' && (bird.gender ?? '').toLowerCase() !== gender.toLowerCase()) return false;
     return true;
   });
 
@@ -306,6 +310,9 @@ function initFilters() {
       searchEl.value = '';
       if (clearBtn) clearBtn.hidden = true;
       document.querySelectorAll('.filters__chip[data-filter="category"]').forEach((c, i) => {
+        c.classList.toggle('filters__chip--active', i === 0);
+      });
+      document.querySelectorAll('.filters__chip[data-filter="gender"]').forEach((c, i) => {
         c.classList.toggle('filters__chip--active', i === 0);
       });
       filterAndRender();
